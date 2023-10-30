@@ -1,6 +1,8 @@
+*.swp
+*.pyc
 Summary.md
-risks.mp3
+*.mp3
 Risks.md
 diagram.md
-ozono.mp3
-
+*.mp4
+*docx

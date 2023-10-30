@@ -92,7 +92,6 @@ class MainWindow(tk.Frame):
             self.transcription_text.delete(1.0, tk.END)
             self.transcription_text.insert(tk.END, self.transcription)
             
-            self.edited_transcription = self.transcription_text.get(1.0, tk.END).strip()
             messagebox.showinfo("Success", f"Transcribed text displayed in text field")
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
@@ -104,6 +103,10 @@ class MainWindow(tk.Frame):
             return
         output_file = self.output_entry
         print("Generating minutes")
+        self.edited_transcription = self.transcription_text.get(1.0, tk.END).strip()
+        with open(output_file + '.txt','w') as f:
+            f.write(self.edited_transcription)
+        print(self.edited_transcription)
         try:
             print(output_file)
             minutes = self.generate_meeting_minutes(self.edited_transcription)
