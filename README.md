@@ -15,6 +15,7 @@ It can generate risk analyses, project summaries, schedules, scopes, and more fr
 To install the application you need to set up the environment. The application is devoleped into a Linux Ubuntu 20.04 VM using 
 Python and Tkinter. As it is using the OpenAI API you have to insall the Python bindigs. Follow the instructions "Here":https://platform.openai.com/docs/api-reference/introduction.
 
+First clone the reposito
 ## Usage
 
 ## License

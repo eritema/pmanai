@@ -56,20 +56,32 @@ class MainWindow(tk.Frame):
 
 
     def setup_layout(self):
+        # Add Frames
+        self.action_frame = tk.Frame(self.master, borderwidth = 2)
+        self.action_frame.pack(side = tk.BOTTOM, padx = 10, pady = 10)
+        self.text_frame = tk.Frame(self.master, borderwidth = 2)
+        self.text_frame.pack(side = tk.TOP, padx = 10, pady = 10)
+        self.buttons_frame = tk.Frame(self.action_frame, borderwidth = 2)
+        self.buttons_frame.pack(side = tk.BOTTOM)
         # Add a Text widget
-        self.transcription_text = tk.Text(self.master, height=10, width=50)
+        #self.transcription_text = tk.Text(self.master, height=10, width=50)
+        self.transcription_text = tk.Text(self.text_frame)
         self.transcription_text.pack()
         # Checkboxes for meeting minute components
         self.checks = {}
-        for comp in ["Abstract Summary", "Key Points", "Risks", "Action Items", "Sentiment", "Diagram"]:
+        for comp in ["Abstract Summary", "Key Points", "Sentiment", "Risks", "Action Items", "Diagram"]:
             self.checks[comp] = tk.BooleanVar()
-            tk.Checkbutton(self.master, text=comp, variable=self.checks[comp]).pack()
+            tk.Checkbutton(self.action_frame, text=comp, variable=self.checks[comp]).pack(side = tk.LEFT, padx = 5)
+
+        # Process clear button
+        self.clear_audio_button = tk.Button(self.text_frame, text="Clear Transcription", command=self.clear_transcript)
+        self.clear_audio_button.pack()
         # Process audio button
-        self.process_audio_button = tk.Button(self.master, text="Process audio", command=self.process_audio)
+        self.process_audio_button = tk.Button(self.text_frame, text="Audio2Txt", command=self.process_audio)
         self.process_audio_button.pack()
 
         # Process minutes button
-        self.process_minutes_button = tk.Button(self.master, text="Process minutes", command=self.process_minutes)
+        self.process_minutes_button = tk.Button(self.buttons_frame, text="Process Actions", command=self.process_minutes)
         self.process_minutes_button.pack()
         pass
 
@@ -77,6 +89,9 @@ class MainWindow(tk.Frame):
         filename = filedialog.askopenfilename()
         self.file_entry.delete(0, tk.END)
         self.file_entry.insert(0, filename)
+
+    def clear_transcript(self):
+        self.transcription_text.delete(1.0, tk.END)
 
     def process_audio(self):
         if not self.file_entry:

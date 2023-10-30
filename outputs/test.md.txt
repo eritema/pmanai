@@ -1,0 +1,1 @@
+This is a really short audio used in order to be able to transmit a short message to the API of OpenAE and is simply used as a test audio to speed up the testing.
