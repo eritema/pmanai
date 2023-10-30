@@ -31,7 +31,7 @@ pip install openai
 ```
 
 ## How to Use
-Figure 1 illustrates the primary workflow of PManAI ![Figure 1](/home/raf/workspace/github/openai-cookbook/apps/pmanai/docs/main_scenario.png). 
+Figure 1 illustrates the primary workflow of PManAI ![Figure 1](./docs/main_scenario.png). 
 
 Run the application with `python main.py` within the project directory or update your PATH to include the repository workspace.
 
