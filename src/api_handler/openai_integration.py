@@ -5,6 +5,79 @@ def transcribe_audio(audio_file_path):
         transcription = openai.Audio.transcribe("whisper-1", audio_file)
     return transcription['text']
 
+def minutes_extraction(transcription):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        temperature=0,
+        messages=[
+            {
+                "role": "system",
+                #"content": "You are a highly skilled AI trained in language comprehension and summarization. I would like you to read the following transcription of a meeting and summarize it into a meeting minutes report with: discussion points and Action items. The name of the partecipant that spoke the sentence is at the beginning of the line like in the example in ''' deimiter. \
+                "content": "The attenders of the meeting are at the beginning of each line (see example in ''' delimiter). Task: Produce a detailed report with the minutes of the meeting. Compose detailed meeting notes for each agenda item discussed during the meeting. Highlight important insights, outcomes, and any unresolved issues for further consideration.\
+'''#Input\
+Raf: I say something related to the to the meeting.\
+Pippo: Contribute to the meeting with something that is written here.\
+Output \
+#Meeting Minutes\
+\
+**Date:** [Insert Date]\
+**Time:** [Insert Time]\
+**Location:** [Insert Location]\
+**Attendees:** Raf, Pippo.\
+### Discussion Points\
+...\
+\
+### Actions Items\
+...\
+\
+### Next Meeting: TBD\
+'''"
+            },
+            {
+                "role": "user",
+                "content": transcription
+            }
+        ]
+    )
+    return response['choices'][0]['message']['content']
+
+
+def clean_transcription(transcription):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        temperature=0,
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a highly skilled AI trained in language comprehension. I would like you to parse the following raw transcription of a meeting and clean it from  greetings and interjections"
+            },
+            {
+                "role": "user",
+                "content": transcription
+            }
+        ]
+    )
+    return response['choices'][0]['message']['content']
+
+def reduce_transcription(transcription):
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        temperature=0,
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a highly skilled AI trained in language comprehension. I would like you to parse the following raw transcription of a meeting, clean it from  greetings and interjections, and remove the redundant information, preserving the answers and the questions."
+            },
+            {
+                "role": "user",
+                "content": transcription
+            }
+        ]
+    )
+    return response['choices'][0]['message']['content']
+
+
+
 def abstract_summary_extraction(transcription):
     response = openai.ChatCompletion.create(
         model="gpt-4",

@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from api_handler.openai_integration import (
     abstract_summary_extraction,
+    minutes_extraction,
+    clean_transcription,
+    reduce_transcription,
     key_points_extraction,
     risks_extraction,
     action_item_extraction,
@@ -69,7 +72,7 @@ class MainWindow(tk.Frame):
         self.transcription_text.pack()
         # Checkboxes for meeting minute components
         self.checks = {}
-        for comp in ["Abstract Summary", "Key Points", "Sentiment", "Risks", "Action Items", "Diagram"]:
+        for comp in ["Clean Trans", "Reduce Trans", "Abstract Summary", "Key Points", "Sentiment", "Meeting Minutes", "Risks", "Action Items", "Diagram"]:
             self.checks[comp] = tk.BooleanVar()
             tk.Checkbutton(self.action_frame, text=comp, variable=self.checks[comp]).pack(side = tk.LEFT, padx = 5)
 
@@ -137,9 +140,18 @@ class MainWindow(tk.Frame):
 
     def generate_meeting_minutes(self, transcription):
         minutes = {}
+        if self.checks["Clean Trans"].get():
+            print("Cleaning")
+            minutes['clean_transcription'] = clean_transcription(transcription)
+        if self.checks["Reduce Trans"].get():
+            print("Reducing")
+            minutes['reduce_transcription'] = reduce_transcription(transcription)
         if self.checks["Abstract Summary"].get():
             print("summary")
             minutes['abstract_summary'] = abstract_summary_extraction(transcription)
+        if self.checks["Meeting Minutes"].get():
+            print("minutes`")
+            minutes['meeting_minutes'] = minutes_extraction(transcription)
         if self.checks["Key Points"].get():
             print("Key points")
             minutes['key_points'] = key_points_extraction(transcription)
