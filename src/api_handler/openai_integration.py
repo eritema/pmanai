@@ -49,7 +49,7 @@ def clean_transcription(transcription):
         messages=[
             {
                 "role": "system",
-                "content": "You are a highly skilled AI trained in language comprehension. I would like you to parse the following raw transcription of a meeting and clean it from  greetings and interjections"
+                "content": "You are a highly skilled AI trained in language comprehension. I would like you to parse the following raw transcription of a meeting and clean it from  greetings, acknowledgments and interjections."
             },
             {
                 "role": "user",
